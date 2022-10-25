@@ -1,0 +1,50 @@
+.row{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding-top: 20px;
+    padding-left: 30px;
+  }
+  .col-md-4{
+    margin-bottom: 40px;
+  }
+  .content{
+    width: 100%;
+    background-image: url(https://c4.wallpaperflare.com/wallpaper/560/552/994/car-bmw-m2-headlights-wallpaper-preview.jpg);
+    background-size: cover;  
+    background-repeat: no-repeat;
+}
+  .img-title{
+    font-size: 50px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: white;
+    text-align: center;
+    padding-top: 100px;
+  }
+  .list-box{
+    background-color: #f7f7f7;
+    display: flex;
+    padding: 15px;
+  }
+  .list-checkmark{
+    list-style: none;
+  }
+  .list-checkmark li:before{
+    font-family: 'FontAwesome';
+    content: "\f00c";
+    margin: 0 10px 0 -28px;
+    color: #17aa1c;;
+  }
+  .writeup{
+    width: 50%;
+  }
+  .img{
+    width: 50%;
+    margin-left: 40px;
+  
+  }
+  .main{
+    display: flex;
+  }
+  .writeup-img1{
+    margin-top: 300px;
+  }
