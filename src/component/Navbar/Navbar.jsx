@@ -20,9 +20,6 @@ function Navbar() {
           <li className="nav-item">
             <NavLink className="nav-link" to="/custommap">Map</NavLink>
           </li>
-          <li className="nav-item">
-            <NavLink className="nav-link" to="/contact">Contact</NavLink>
-          </li>
         </ul>
       </div>
     </div>

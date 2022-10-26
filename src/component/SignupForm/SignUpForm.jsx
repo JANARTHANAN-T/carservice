@@ -1,66 +1,57 @@
 
-import React, { Component } from 'react'
-import {Link} from 'react-router-dom'
+import React, { useState } from 'react'
+import {Link, useNavigate} from 'react-router-dom'
+import axios from 'axios'
 import './SignupForm.css'
-export class SignUpForm extends Component {
-    constructor(){
-        super();
-        this.state={
-            email:"",
-            password:"",
-            company:"",
-            year:"",
-            lat:"",
-            lng:""
-        };
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-  }
+export function SignUpForm() {
+  const [email,setEmail]=useState('')
+  const [password,setPassword]=useState('')
+  const [company,setCompany]=useState('')
+  const [year,setYear]=useState('')
+  const [lat,setLat]=useState('')
+  const [long,setLong]=useState('')
 
-  handleChange(event) {
-    let target = event.target;
-    let value=target.type==="checkbox"? target.checked:target.value;
-    let name = target.name;
+  const navigate = useNavigate()
 
-    this.setState({
-      [name]: value
-    });
-  }
-
-  handleSubmit(e) {
-    e.preventDefault();
-
+  const handleSubmit=async(e)=> {
+    e.preventDefault()
     console.log("The form was submitted with the following data:");
-    console.log(this.state);
+    await axios({
+      method: 'post',
+      url: 'http://localhost:4000/user/signup',
+      data: {email,password,company,year,lat,long}
+    }).then(
+      (res)=>{
+        console.log(res);
+        localStorage.setItem("company", JSON.stringify(res.data));
+        navigate("/")
+    }
+    ).catch((err)=>console.log(err))
   }
-  render() {
+  
     return (
       <div>
         <div className='signup'>
             <div className='left-side1'></div>
             <div className='right-side1'>
-                <form className='form1'>
+                <form className='form1' onSubmit={handleSubmit}>
                     <div className='form-fields'>
-                        <label htmlFor="name" className='formFieldLabel'>Name</label>
-                        <input type="text" id='name' name='names' className='formFieldInput' placeholder='Enter your full name'
-                        value={this.state.name} onChange={this.handlechange} />
-                        <label className="formFieldLabel" htmlFor="password">Password</label>
-                       <input type="password" id="password" className="formFieldInput"
-                        placeholder="Enter your password" name="password" value={this.state.password} onChange={this.handleChange} />
                         <label htmlFor="email" className='formFieldLabel'>Email</label>
-                        <input type="email" id="email" name="email" className='formFieldInput' placeholder='Enter email' value={this.state.email} onChange={this.handleChange}/>
+                        <input type="email" id="email" name="email" className='formFieldInput' placeholder='Enter email' value={email} onChange={(e)=>setEmail(e.target.value)}/>
                         <label htmlFor="company-name" className='formFieldLabel' >Company Name</label>
-                        <input type="text" id='company-name' name='company' className='formFieldInput' value={this.state.company} onChange={this.handleChange} />
+                        <input type="text" id='company-name' name='company' className='formFieldInput' value={company} onChange={(e)=>setCompany(e.target.value)} />
                         <label htmlFor="year" className='formFieldLabel'>Year Started</label>
-                        <input type="text" id='year' name='year' className='formFieldInput' />
+                        <input type="text" id='year' name='year' className='formFieldInput' value={year} onChange={(e)=>setYear(e.target.value)} />
                         {/* <label htmlFor="location">Location</label> */}
                         <label htmlFor="lat" className='formFieldLabel'>Latitude</label>
-                        <input type="text" id='lat' className='formFieldInput' name='lat' value={this.state.lat} onChange={this.handleChange} />
+                        <input type="text" id='lat' className='formFieldInput' name='lat' value={lat} onChange={(e)=>setLat(e.target.value)} />
                         <label htmlFor="lng" className='formFieldLabel'>Longitude</label>
-                        <input type="text" id='lng' className='formFieldInput' name='lng' value={this.state.lng} onChange={this.handleChange} />
-
+                        <input type="text" id='lng' className='formFieldInput' name='lng' value={long} onChange={(e)=>setLong(e.target.value)} />
+                        <label className="formFieldLabel" htmlFor="password">Password</label>
+                       <input type="password" id="password" className="formFieldInput"
+                        placeholder="Enter your password" name="password" value={password} onChange={(e)=>setPassword(e.target.value)} />
                         <button className="formFieldButton">Sign Up</button>{" "}
-                        <Link to="/sign-up" className="formFieldLink">
+                        <Link to="/sign-in" className="formFieldLink">
                            I'm already member
                         </Link>
                     </div>
@@ -69,7 +60,6 @@ export class SignUpForm extends Component {
         </div>
       </div>
     )
-  }
 }
 
 export default SignUpForm
