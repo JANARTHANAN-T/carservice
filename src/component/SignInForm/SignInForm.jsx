@@ -1,42 +1,33 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from 'axios'
 import './SignInForm.css'
-class SignInForm extends Component {
-  constructor() {
-    super();
+function SignInForm() {
+  const [email,setEmail]=useState('')
+  const [password,setPassword]=useState('')
 
-    this.state = {
-      email: "",
-      password: ""
-    };
+  const navigate=useNavigate()
 
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  handleChange(event) {
-    let target = event.target;
-    let value = target.type === "checkbox" ? target.checked : target.value;
-    let name = target.name;
-
-    this.setState({
-      [name]: value
-    });
-  }
-
-  handleSubmit(event) {
+  const handleSubmit=async(event)=> {
     event.preventDefault();
-
     console.log("The form was submitted with the following data:");
-    console.log(this.state);
-  }
+    await axios({
+      method: 'post',
+      url: 'http://localhost:4000/user/login',
+      data: {email,password}
+    }).then(
+      (res)=>{
+        console.log(res);
+        navigate("/")
+    }
+    ).catch((err)=>console.log(err))
 
-  render() {
+  }
     return (
       <div className="signin">
         <div className='left-side'></div>
             <div className='right-side'>
-        <form className="formFields" onSubmit={this.handleSubmit}>
+        <form className="formFields" onSubmit={handleSubmit}>
           <div className="formField">
             <label className="form-label" htmlFor="email">
               E-Mail Address
@@ -47,8 +38,8 @@ class SignInForm extends Component {
               className="form-control"
               placeholder="Enter your email"
               name="email"
-              value={this.state.email}
-              onChange={this.handleChange}
+              value={email}
+              onChange={(e)=>setEmail(e.target.value)}
             />
           </div>
 
@@ -62,8 +53,8 @@ class SignInForm extends Component {
               className="form-control"
               placeholder="Enter your password"
               name="password"
-              value={this.state.password}
-              onChange={this.handleChange}
+              value={password}
+              onChange={(e)=>setPassword(e.target.value)}
             />
           </div>
 
@@ -77,7 +68,6 @@ class SignInForm extends Component {
         </div>
       </div>
     );
-  }
 }
 
 export default SignInForm;
